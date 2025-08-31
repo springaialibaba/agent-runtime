@@ -114,6 +114,68 @@ public class SandboxHttpClient implements AutoCloseable {
 	}
 
 	/**
+	 * Read file content
+	 */
+	public Map<String, Object> readFile(String path) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("path", path);
+
+		return executeRequest("/tools/read_file", payload, Map.class);
+	}
+
+	/**
+	 * Write file content
+	 */
+	public Map<String, Object> writeFile(String path, String content) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("path", path);
+		payload.put("content", content);
+
+		return executeRequest("/tools/write_file", payload, Map.class);
+	}
+
+	/**
+	 * Create directory
+	 */
+	public Map<String, Object> createDirectory(String path) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("path", path);
+
+		return executeRequest("/tools/create_directory", payload, Map.class);
+	}
+
+	/**
+	 * List directory contents
+	 */
+	public Map<String, Object> listDirectory(String path) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("path", path);
+
+		return executeRequest("/tools/list_directory", payload, Map.class);
+	}
+
+	/**
+	 * Move file
+	 */
+	public Map<String, Object> moveFile(String source, String destination) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("source_path", source);
+		payload.put("destination_path", destination);
+
+		return executeRequest("/tools/move_file", payload, Map.class);
+	}
+
+	/**
+	 * Get file info
+	 */
+	public Map<String, Object> getFileInfo(String path) throws SandboxClientException {
+		Map<String, Object> payload = new HashMap<>();
+		payload.put("path", path);
+
+		return executeRequest("/tools/get_file_info", payload, Map.class);
+	}
+
+	/**
 	 * Health check
 	 */
 	public boolean healthCheck() {

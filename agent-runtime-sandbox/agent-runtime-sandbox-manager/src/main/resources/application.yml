@@ -14,12 +14,14 @@ spring:
 sandbox:
   # Service settings
   bearer-token: "default_token"
-  # Container settings
-  default-sandbox-type: "BASE"
   pool-size: 10
+
+  # Container settings
   container-prefix-key: "sandbox-"
+  # If true, containers will be automatically cleaned up after use
   auto-cleanup: true
-  
+  default-mount-dir: ${YOUR_MOUNT_DIR:/tmp/data}
+
   # Docker settings
   docker-host: "unix:///var/run/docker.sock"
   docker-environment:
@@ -33,10 +35,6 @@ sandbox:
   
   # Deployment type
   deployment-type: "DOCKER"
-  
-  # Storage settings
-  storage-type: "LOCAL"
-  storage-path: "/tmp/sandbox-storage"
 
 
 

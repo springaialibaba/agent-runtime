@@ -25,10 +25,7 @@ import com.alibaba.cloud.ai.agent.runtime.sandbox.core.properties.SandboxPropert
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.HostConfig;
-import com.github.dockerjava.api.model.PortBinding;
-import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
@@ -128,8 +125,9 @@ public class ContainerService {
 				.withEnv(buildEnvironmentVariables(sessionId))
 				.withPortBindings(buildPortBindings(ports))
 				.withHostConfig(HostConfig.newHostConfig()
+					.withMounts(buildMounts())
 					.withPortBindings(buildPortBindings(ports))
-					// .withAutoRemove(true)
+					// .withAutoRemove(config.isAutoCleanup())
 					.withNetworkMode("bridge"))
 				.exec();
 
@@ -269,6 +267,20 @@ public class ContainerService {
 		}
 
 		return bindings.toArray(new PortBinding[0]);
+	}
+
+	private List<Mount> buildMounts() {
+		List<Mount> mounts = new ArrayList<>();
+		if (config.getDefaultMountDir() != null && !config.getDefaultMountDir().isEmpty()) {
+			String hostDir = config.getDefaultMountDir();
+			String containerDir = "/workspace/data";
+			Mount mount = new Mount().withType(MountType.BIND)
+				.withSource(hostDir)
+				.withTarget(containerDir)
+				.withReadOnly(false);
+			mounts.add(mount);
+		}
+		return mounts;
 	}
 
 	/**

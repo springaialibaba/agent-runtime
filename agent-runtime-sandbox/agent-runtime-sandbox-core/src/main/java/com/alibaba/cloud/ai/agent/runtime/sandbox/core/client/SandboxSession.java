@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Represents a sandbox session with a container
@@ -88,6 +89,61 @@ public class SandboxSession implements AutoCloseable {
 		logger.debug("Executing shell command in session: {} with splitOutput: {}", container.getSessionId(),
 				splitOutput);
 		return httpClient.runShellCommand(command, splitOutput);
+	}
+
+	/**
+	 * Read file content
+	 */
+	public Map<String, Object> readFile(String path) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Reading file in session: {}, path: {}", container.getSessionId(), path);
+		return httpClient.readFile(path);
+	}
+
+	/**
+	 * Write file content
+	 */
+	public Map<String, Object> writeFile(String path, String content) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Writing file in session: {}, path: {}", container.getSessionId(), path);
+		return httpClient.writeFile(path, content);
+	}
+
+	/**
+	 * Create directory
+	 */
+	public Map<String, Object> createDirectory(String path) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Creating directory in session: {}, path: {}", container.getSessionId(), path);
+		return httpClient.createDirectory(path);
+	}
+
+	/**
+	 * List directory contents
+	 */
+	public Map<String, Object> listDirectory(String path) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Listing directory in session: {}, path: {}", container.getSessionId(), path);
+		return httpClient.listDirectory(path);
+	}
+
+	/**
+	 * Move file
+	 */
+	public Map<String, Object> moveFile(String source, String destination) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Moving file in session: {}, source: {}, destination: {}", container.getSessionId(), source,
+				destination);
+		return httpClient.moveFile(source, destination);
+	}
+
+	/**
+	 * Get file info
+	 */
+	public Map<String, Object> getFileInfo(String path) throws SandboxClientException {
+		checkClosed();
+		logger.debug("Getting file info in session: {}, path: {}", container.getSessionId(), path);
+		return httpClient.getFileInfo(path);
 	}
 
 	/**

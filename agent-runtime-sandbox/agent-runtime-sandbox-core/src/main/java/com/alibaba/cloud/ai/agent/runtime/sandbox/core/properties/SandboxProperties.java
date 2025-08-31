@@ -19,7 +19,6 @@
 
 package com.alibaba.cloud.ai.agent.runtime.sandbox.core.properties;
 
-import com.alibaba.cloud.ai.agent.runtime.sandbox.core.enums.SandboxType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -34,8 +33,6 @@ public class SandboxProperties {
 	/**
 	 * Sandbox manager settings.
 	 */
-	private SandboxType defaultSandboxType = SandboxType.BASE;
-
 	private int poolSize = 1;
 
 	private boolean autoCleanup = true;
@@ -70,13 +67,6 @@ public class SandboxProperties {
 	private String redisContainerPoolKey = "_agent_runtime_container_container_pool";
 
 	/**
-	 * Storage settings.
-	 */
-	private String storageType = "LOCAL";
-
-	private String storagePath = "/tmp/sandbox-storage";
-
-	/**
 	 * OSS settings (for cloud storage).
 	 */
 	private String ossEndpoint;
@@ -93,14 +83,6 @@ public class SandboxProperties {
 	private String dockerHost = "unix:///var/run/docker.sock";
 
 	private Map<String, String> dockerEnvironment;
-
-	public SandboxType getDefaultSandboxType() {
-		return defaultSandboxType;
-	}
-
-	public void setDefaultSandboxType(SandboxType defaultSandboxType) {
-		this.defaultSandboxType = defaultSandboxType;
-	}
 
 	public int getPoolSize() {
 		return poolSize;
@@ -220,22 +202,6 @@ public class SandboxProperties {
 
 	public void setRedisContainerPoolKey(String redisContainerPoolKey) {
 		this.redisContainerPoolKey = redisContainerPoolKey;
-	}
-
-	public String getStorageType() {
-		return storageType;
-	}
-
-	public void setStorageType(String storageType) {
-		this.storageType = storageType;
-	}
-
-	public String getStoragePath() {
-		return storagePath;
-	}
-
-	public void setStoragePath(String storagePath) {
-		this.storagePath = storagePath;
 	}
 
 	public String getOssEndpoint() {
