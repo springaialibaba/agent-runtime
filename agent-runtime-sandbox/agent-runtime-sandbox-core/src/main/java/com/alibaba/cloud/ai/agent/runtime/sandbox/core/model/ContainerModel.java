@@ -55,8 +55,8 @@ public class ContainerModel {
 	@NotBlank
 	private String sandboxType;
 
-	@JsonProperty("runtime_token")
-	private String runtimeToken;
+	@JsonProperty("bearer_token")
+	private String bearerToken;
 
 	private Map<String, String> environment;
 
@@ -125,12 +125,12 @@ public class ContainerModel {
 		this.ports = ports;
 	}
 
-	public String getRuntimeToken() {
-		return runtimeToken;
+	public String getBearerToken() {
+		return bearerToken;
 	}
 
-	public void setRuntimeToken(String runtimeToken) {
-		this.runtimeToken = runtimeToken;
+	public void setBearerToken(String bearerToken) {
+		this.bearerToken = bearerToken;
 	}
 
 	public Map<String, String> getEnvironment() {

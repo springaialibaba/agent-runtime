@@ -44,6 +44,8 @@ public class SandboxProperties {
 
 	private String deploymentType = "docker";
 
+	private String bearerToken = "default_token";
+
 	private String defaultMountDir = "sessions_mount_dir";
 
 	private List<Integer> portRange = List.of(49152, 59152);
@@ -114,6 +116,14 @@ public class SandboxProperties {
 
 	public void setAutoCleanup(boolean autoCleanup) {
 		this.autoCleanup = autoCleanup;
+	}
+
+	public String getBearerToken() {
+		return bearerToken;
+	}
+
+	public void setBearerToken(String bearerToken) {
+		this.bearerToken = bearerToken;
 	}
 
 	public String getContainerPrefixKey() {

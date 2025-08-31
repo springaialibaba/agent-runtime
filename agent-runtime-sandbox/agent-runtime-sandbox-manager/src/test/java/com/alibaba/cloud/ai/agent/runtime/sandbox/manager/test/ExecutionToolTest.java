@@ -1,6 +1,5 @@
 package com.alibaba.cloud.ai.agent.runtime.sandbox.manager.test;
 
-import com.alibaba.cloud.ai.agent.runtime.sandbox.core.tools.PythonExecutionTool;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

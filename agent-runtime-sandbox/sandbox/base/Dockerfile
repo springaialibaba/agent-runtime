@@ -8,6 +8,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     WORKSPACE_DIR=/workspace \
     SESSION_ID="" \
+    SECRET_TOKEN=default_token \
     DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies

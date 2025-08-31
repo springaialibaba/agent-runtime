@@ -149,7 +149,7 @@ public class ContainerService {
 				model.setBrowserUrl("http://localhost:" + ports.get(1));
 			}
 
-			model.setRuntimeToken(generateToken());
+			model.setBearerToken(config.getBearerToken());
 
 			activeContainers.put(sessionId, model);
 
@@ -277,6 +277,7 @@ public class ContainerService {
 	private List<String> buildEnvironmentVariables(String sessionId) {
 		List<String> env = new ArrayList<>();
 		env.add("SESSION_ID=" + sessionId);
+		env.add("SECRET_TOKEN=" + config.getBearerToken());
 		env.add("WORKSPACE_DIR=/workspace");
 
 		if (config.getDockerEnvironment() != null) {

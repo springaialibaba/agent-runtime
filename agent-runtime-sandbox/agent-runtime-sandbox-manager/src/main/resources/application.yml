@@ -13,10 +13,7 @@ spring:
 # Sandbox configuration
 sandbox:
   # Service settings
-  host: "0.0.0.0"
-  port: 8080
-  bearer-token: "dev-token-123"
-  
+  bearer-token: "default_token"
   # Container settings
   default-sandbox-type: "BASE"
   pool-size: 10
@@ -40,6 +37,7 @@ sandbox:
   # Storage settings
   storage-type: "LOCAL"
   storage-path: "/tmp/sandbox-storage"
+
 
 
 # Logging configuration

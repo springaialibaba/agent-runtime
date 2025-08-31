@@ -51,7 +51,7 @@ public class SandboxHttpClient implements AutoCloseable {
 
 	private final String baseUrl;
 
-	private final String authToken;
+	private final String bearerToken;
 
 	private final CloseableHttpClient httpClient;
 
@@ -62,7 +62,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	 */
 	public SandboxHttpClient(ContainerModel containerModel) {
 		this.baseUrl = containerModel.getBaseUrl();
-		this.authToken = containerModel.getRuntimeToken();
+		this.bearerToken = containerModel.getBearerToken();
 		this.httpClient = HttpClients.createDefault();
 		this.objectMapper = new ObjectMapper();
 	}
@@ -70,9 +70,9 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Constructor with base URL and token
 	 */
-	public SandboxHttpClient(String baseUrl, String authToken) {
+	public SandboxHttpClient(String baseUrl, String bearerToken) {
 		this.baseUrl = baseUrl;
-		this.authToken = authToken;
+		this.bearerToken = bearerToken;
 		this.httpClient = HttpClients.createDefault();
 		this.objectMapper = new ObjectMapper();
 	}
@@ -143,8 +143,8 @@ public class SandboxHttpClient implements AutoCloseable {
 			HttpPost request = new HttpPost(new URI(url));
 
 			// Set headers
-			if (authToken != null && !authToken.isEmpty()) {
-				request.setHeader("Authorization", "Bearer " + authToken);
+			if (bearerToken != null && !bearerToken.isEmpty()) {
+				request.setHeader("Authorization", "Bearer " + bearerToken);
 			}
 			request.setHeader("Content-Type", "application/json");
 
@@ -173,8 +173,8 @@ public class SandboxHttpClient implements AutoCloseable {
 			HttpGet request = new HttpGet(new URI(url));
 
 			// Set headers
-			if (authToken != null && !authToken.isEmpty()) {
-				request.setHeader("Authorization", "Bearer " + authToken);
+			if (bearerToken != null && !bearerToken.isEmpty()) {
+				request.setHeader("Authorization", "Bearer " + bearerToken);
 			}
 
 			logger.debug("Executing GET request: {}", url);
@@ -230,7 +230,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	 * Get auth token
 	 */
 	public String getAuthToken() {
-		return authToken;
+		return bearerToken;
 	}
 
 	@Override
