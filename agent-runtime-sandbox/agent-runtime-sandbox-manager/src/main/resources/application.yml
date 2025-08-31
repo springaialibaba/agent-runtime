@@ -1,0 +1,79 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: sandbox-manager
+  profiles:
+    active: dev
+
+
+# Sandbox configuration
+sandbox:
+  # Service settings
+  bearer-token: "default_token"
+  pool-size: 10
+
+  # Container settings
+  container-prefix-key: "sandbox-"
+  # If true, containers will be automatically cleaned up after use
+  auto-cleanup: true
+  default-mount-dir: ${YOUR_MOUNT_DIR:/tmp/data}
+
+  # Docker settings
+  docker-host: "unix:///var/run/docker.sock"
+  docker-environment:
+    PYTHONPATH: "/workspace"
+    WORKSPACE_DIR: "/workspace"
+  
+  # Port range for containers
+  port-range:
+    - 9000
+    - 9999
+  
+  # Deployment type
+  deployment-type: "DOCKER"
+
+
+
+# Logging configuration
+logging:
+  level:
+    com.agentscope.sandbox: DEBUG
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+# Development profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+sandbox:
+  bearer-token: "dev-token-123"
+  auto-cleanup: true
+
+logging:
+  level:
+    root: INFO
+    com.agentscope.sandbox: DEBUG
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+sandbox:
+  bearer-token: "${SANDBOX_SECRET_TOKEN:}"
+  auto-cleanup: false
+  
+logging:
+  level:
+    root: WARN
+    com.agentscope.sandbox: INFO
