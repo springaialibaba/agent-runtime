@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/chenjingyang/dev/github/agent-runtime/agent-runtime-sandbox/data"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@0.0.25",
+        "--config",
+        "/Users/chenjingyang/dev/github/agent-runtime/agent-runtime-sandbox/agent-runtime-sandbox-mcp/src/main/resources/playwright_mcp_config.json"
+      ]
+    }
+  }
+}

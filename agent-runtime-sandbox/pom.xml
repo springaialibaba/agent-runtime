@@ -13,6 +13,7 @@
     <modules>
         <module>agent-runtime-sandbox-manager</module>
         <module>agent-runtime-sandbox-core</module>
+        <module>agent-runtime-sandbox-mcp</module>
     </modules>
 
     <properties>
@@ -33,6 +34,11 @@
             <dependency>
                 <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>agent-runtime-sandbox-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>agent-runtime-sandbox-mcp</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- Docker Java -->
