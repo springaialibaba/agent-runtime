@@ -123,12 +123,11 @@ public class ContainerService {
 			CreateContainerResponse container = dockerClient.createContainerCmd(imageName)
 				.withName(containerName)
 				.withEnv(buildEnvironmentVariables(sessionId))
-				.withPortBindings(buildPortBindings(ports))
 				.withHostConfig(HostConfig.newHostConfig()
-					.withMounts(buildMounts())
-					.withPortBindings(buildPortBindings(ports))
-					// .withAutoRemove(config.isAutoCleanup())
-					.withNetworkMode("bridge"))
+				.withMounts(buildMounts())
+				.withPortBindings(buildPortBindings(ports))
+				// .withAutoRemove(config.isAutoCleanup())
+				.withNetworkMode("bridge"))
 				.exec();
 
 			String containerId = container.getId();
@@ -257,14 +256,17 @@ public class ContainerService {
 	 */
 	private PortBinding[] buildPortBindings(List<Integer> ports) {
 		List<PortBinding> bindings = new ArrayList<>();
-
+		//  主端口
 		if (!ports.isEmpty()) {
 			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(0)), ExposedPort.tcp(8000)));
 		}
 
+		// Nginx 端口
 		if (ports.size() > 1) {
-			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(1)), ExposedPort.tcp(8080)));
+			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(1)), ExposedPort.tcp(80)));
 		}
+
+		// TODO 如果有更多端口需求怎么处理
 
 		return bindings.toArray(new PortBinding[0]);
 	}

@@ -82,8 +82,7 @@ public class SandboxTest {
 
 		// 13. Move file
 		logger.info("\n13. Moving file '/data/demo/config.json' to '/data/demo/settings.json':");
-		Map<String, Object> moveResult = session.moveFile("/data/demo/config.json",
-				"/data/demo/settings.json");
+		Map<String, Object> moveResult = session.moveFile("/data/demo/config.json", "/data/demo/settings.json");
 		logger.info("Move file result: {}", moveResult);
 
 		// 14. Final directory listing

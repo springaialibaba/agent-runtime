@@ -4,6 +4,11 @@ server:
     context-path: /
 
 spring:
+  ai:
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:mcp-servers.json
   application:
     name: sandbox-manager
   profiles:
