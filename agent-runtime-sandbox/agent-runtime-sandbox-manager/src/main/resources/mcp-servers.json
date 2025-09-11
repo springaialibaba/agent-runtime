@@ -12,7 +12,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@playwright/mcp@0.0.25",
+        "@playwright/mcp@0.0.37",
         "--config",
         "/Users/chenjingyang/dev/github/agent-runtime/agent-runtime-sandbox/agent-runtime-sandbox-manager/src/main/resources/playwright_mcp_config.json"
       ]

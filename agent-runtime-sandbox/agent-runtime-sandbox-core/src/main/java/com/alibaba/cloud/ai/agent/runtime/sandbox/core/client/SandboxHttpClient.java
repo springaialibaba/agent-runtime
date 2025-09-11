@@ -80,14 +80,14 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Execute Python code
 	 */
-	public ExecutionResult runPythonCell(String code) throws SandboxClientException {
+	public ExecutionResult runPythonCell(String code) {
 		return runPythonCell(code, false);
 	}
 
 	/**
 	 * Execute Python code with split output option
 	 */
-	public ExecutionResult runPythonCell(String code, boolean splitOutput) throws SandboxClientException {
+	public ExecutionResult runPythonCell(String code, boolean splitOutput) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("code", code);
 		payload.put("split_output", splitOutput);
@@ -98,14 +98,14 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Execute shell command
 	 */
-	public ExecutionResult runShellCommand(String command) throws SandboxClientException {
+	public ExecutionResult runShellCommand(String command) {
 		return runShellCommand(command, false);
 	}
 
 	/**
 	 * Execute shell command with split output option
 	 */
-	public ExecutionResult runShellCommand(String command, boolean splitOutput) throws SandboxClientException {
+	public ExecutionResult runShellCommand(String command, boolean splitOutput) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("command", command);
 		payload.put("split_output", splitOutput);
@@ -116,7 +116,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Read file content
 	 */
-	public Map<String, Object> readFile(String path) throws SandboxClientException {
+	public Map<String, Object> readFile(String path) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("path", path);
 
@@ -126,7 +126,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Write file content
 	 */
-	public Map<String, Object> writeFile(String path, String content) throws SandboxClientException {
+	public Map<String, Object> writeFile(String path, String content) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("path", path);
 		payload.put("content", content);
@@ -137,7 +137,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Create directory
 	 */
-	public Map<String, Object> createDirectory(String path) throws SandboxClientException {
+	public Map<String, Object> createDirectory(String path) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("path", path);
 
@@ -147,7 +147,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * List directory contents
 	 */
-	public Map<String, Object> listDirectory(String path) throws SandboxClientException {
+	public Map<String, Object> listDirectory(String path) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("path", path);
 
@@ -157,7 +157,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Move file
 	 */
-	public Map<String, Object> moveFile(String source, String destination) throws SandboxClientException {
+	public Map<String, Object> moveFile(String source, String destination) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("source_path", source);
 		payload.put("destination_path", destination);
@@ -168,11 +168,465 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Get file info
 	 */
-	public Map<String, Object> getFileInfo(String path) throws SandboxClientException {
+	public Map<String, Object> getFileInfo(String path) {
 		Map<String, Object> payload = new HashMap<>();
 		payload.put("path", path);
 
 		return executeRequest("/tools/get_file_info", payload, Map.class);
+	}
+
+	// ==================== Playwright MCP Methods ====================
+
+	/**
+	 * Navigate browser to URL
+	 */
+	public Map<String, Object> browserNavigate(String url) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("url", url);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_navigate");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		}catch (Exception ex){
+			throw new SandboxClientException("Failed to execute request to /tools", ex);
+		}
+	}
+
+	/**
+	 * Click element by selector
+	 */
+	public Map<String, Object> browserClick(String selector) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_click");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Type text into element
+	 */
+	public Map<String, Object> browserType(String selector, String text) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+			args.put("text", text);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_type");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Take screenshot
+	 */
+	public Map<String, Object> browserTakeScreenshot() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_take_screenshot");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Take screenshot with options
+	 */
+	public Map<String, Object> browserTakeScreenshot(String selector, boolean fullPage) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			if (selector != null && !selector.isEmpty()) {
+				args.put("selector", selector);
+			}
+			args.put("full_page", fullPage);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_take_screenshot");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Get page snapshot (accessibility tree)
+	 */
+	public Map<String, Object> browserSnapshot() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_snapshot");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Press key
+	 */
+	public Map<String, Object> browserPressKey(String key) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("key", key);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_press_key");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Hover over element
+	 */
+	public Map<String, Object> browserHover(String selector) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_hover");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Select option from dropdown
+	 */
+	public Map<String, Object> browserSelectOption(String selector, String value) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+			args.put("value", value);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_select_option");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Wait for element or condition
+	 */
+	public Map<String, Object> browserWaitFor(String selector, int timeout) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+			args.put("timeout", timeout);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_wait_for");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Navigate back
+	 */
+	public Map<String, Object> browserNavigateBack() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_navigate_back");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Navigate forward
+	 */
+	public Map<String, Object> browserNavigateForward() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_navigate_forward");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Resize browser window
+	 */
+	public Map<String, Object> browserResize(int width, int height) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("width", width);
+			args.put("height", height);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_resize");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Close browser
+	 */
+	public Map<String, Object> browserClose() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_close");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Create new tab
+	 */
+	public Map<String, Object> browserTabNew() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_tab_new");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * List all tabs
+	 */
+	public Map<String, Object> browserTabList() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_tab_list");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Select tab by index
+	 */
+	public Map<String, Object> browserTabSelect(int index) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("index", index);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_tab_select");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Close tab by index
+	 */
+	public Map<String, Object> browserTabClose(int index) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("index", index);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_tab_close");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Save page as PDF
+	 */
+	public Map<String, Object> browserPdfSave(String path) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("path", path);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_pdf_save");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Handle dialog (alert, confirm, prompt)
+	 */
+	public Map<String, Object> browserHandleDialog(boolean accept, String text) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("accept", accept);
+			if (text != null && !text.isEmpty()) {
+				args.put("text", text);
+			}
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_handle_dialog");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Upload file
+	 */
+	public Map<String, Object> browserFileUpload(String selector, String filePath) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("selector", selector);
+			args.put("file_path", filePath);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_file_upload");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Get console messages
+	 */
+	public Map<String, Object> browserConsoleMessages() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_console_messages");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Get network requests
+	 */
+	public Map<String, Object> browserNetworkRequests() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_network_requests");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Drag element from source to target
+	 */
+	public Map<String, Object> browserDrag(String sourceSelector, String targetSelector) {
+		try {
+			Map<String, Object> args = new HashMap<>();
+			args.put("source_selector", sourceSelector);
+			args.put("target_selector", targetSelector);
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_drag");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
+	}
+
+	/**
+	 * Generate Playwright test code
+	 */
+	public Map<String, Object> browserGeneratePlaywrightTest() {
+		try {
+			Map<String, Object> args = new HashMap<>();
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("args", objectMapper.writeValueAsString(args));
+			payload.put("name", "browser_generate_playwright_test");
+
+			return executeRequest("/tools/call", payload, Map.class);
+		} catch (Exception ex) {
+			throw new SandboxClientException("Failed to execute request to /tools/call", ex);
+		}
 	}
 
 	/**
@@ -192,14 +646,14 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Get detailed health status
 	 */
-	public Map<String, Object> getHealthStatus() throws SandboxClientException {
+	public Map<String, Object> getHealthStatus() {
 		return executeGetRequest("/health", Map.class);
 	}
 
 	/**
 	 * Execute POST request
 	 */
-	private <T> T executeRequest(String endpoint, Object payload, Class<T> responseType) throws SandboxClientException {
+	private <T> T executeRequest(String endpoint, Object payload, Class<T> responseType) {
 		try {
 			String url = baseUrl + endpoint;
 			HttpPost request = new HttpPost(new URI(url));
@@ -229,7 +683,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Execute GET request
 	 */
-	private <T> T executeGetRequest(String endpoint, Class<T> responseType) throws SandboxClientException {
+	private <T> T executeGetRequest(String endpoint, Class<T> responseType) {
 		try {
 			String url = baseUrl + endpoint;
 			HttpGet request = new HttpGet(new URI(url));
@@ -254,7 +708,7 @@ public class SandboxHttpClient implements AutoCloseable {
 	/**
 	 * Handle HTTP response
 	 */
-	private <T> T handleResponse(CloseableHttpResponse response, Class<T> responseType) throws SandboxClientException {
+	private <T> T handleResponse(CloseableHttpResponse response, Class<T> responseType) {
 		try {
 			int statusCode = response.getCode();
 			HttpEntity entity = response.getEntity();
