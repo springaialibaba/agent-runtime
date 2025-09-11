@@ -25,7 +25,7 @@ sandbox:
   container-prefix-key: "sandbox-"
   # If true, containers will be automatically cleaned up after use
   auto-cleanup: true
-  default-mount-dir: ${YOUR_MOUNT_DIR:/Users/chenjingyang/dev/github/agent-runtime/agent-runtime-sandbox/data}
+  default-mount-dir: ${YOUR_MOUNT_DIR:/tmp}
 
   # Docker settings
   docker-host: "unix:///var/run/docker.sock"
