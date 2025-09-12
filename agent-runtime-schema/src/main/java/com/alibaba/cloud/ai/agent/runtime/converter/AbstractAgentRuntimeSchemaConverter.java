@@ -33,7 +33,7 @@ import java.util.Objects;
  *
  * @author yuluo
  */
-public abstract class AbstractAgentRuntimeSchemaConverter implements IAgentRuntimeSchemaConvertor {
+public abstract class AbstractAgentRuntimeSchemaConverter implements IAgentRuntimeSchemaConverter {
 
     /**
      * Common resource path, can be used by subclasses.
@@ -78,7 +78,7 @@ public abstract class AbstractAgentRuntimeSchemaConverter implements IAgentRunti
     @Override
     public AgentRuntimeSchema convert() {
 
-        AbstractAgentRuntimeSchemaConvertor convertor = createConvertor(resourcePath);
+        AbstractAgentRuntimeSchemaConverter convertor = createConverter(resourcePath);
         return convertor.doConvert();
     }
 

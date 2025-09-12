@@ -27,7 +27,7 @@ import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */
-public interface IAgentRuntimeSchemaConvertor {
+public interface IAgentRuntimeSchemaConverter {
 
     AgentRuntimeSchema convert();
 }

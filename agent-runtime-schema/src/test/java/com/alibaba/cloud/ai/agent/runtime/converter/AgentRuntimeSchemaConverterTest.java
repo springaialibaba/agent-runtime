@@ -17,11 +17,9 @@
  * under the License.
  */
 
-package com.alibaba.cloud.ai.agent.runtime.converter.convertot;
+package com.alibaba.cloud.ai.agent.runtime.converter;
 
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
-import com.alibaba.cloud.ai.agent.runtime.converter.AbstractAgentRuntimeSchemaConvertor;
-import com.alibaba.cloud.ai.agent.runtime.converter.IAgentRuntimeSchemaConvertor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +27,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-class AgentRuntimeSchemaConvertorTest {
+class AgentRuntimeSchemaConverterTest {
 
     private String getResourcePath(final String resourceName) {
 
@@ -44,7 +42,7 @@ class AgentRuntimeSchemaConvertorTest {
 
         String path = getResourcePath("template/runtime.config.json");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConvertor.createConvertor(path);
+        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
         AgentRuntimeSchema schema = convertor.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
@@ -60,7 +58,7 @@ class AgentRuntimeSchemaConvertorTest {
 
         String path = getResourcePath("template/runtime.config.yaml");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConvertor.createConvertor(path);
+        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
         AgentRuntimeSchema schema = convertor.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
@@ -76,7 +74,7 @@ class AgentRuntimeSchemaConvertorTest {
 
         String path = getResourcePath("template/runtime.config.properties");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConvertor.createConvertor(path);
+        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
         AgentRuntimeSchema schema = convertor.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
