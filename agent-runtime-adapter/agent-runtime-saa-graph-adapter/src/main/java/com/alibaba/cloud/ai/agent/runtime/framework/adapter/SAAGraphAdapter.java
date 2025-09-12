@@ -30,7 +30,7 @@ import java.io.Reader;
 
 public class SAAGraphAdapter {
 
-    public static SAAGraphAgent convert(Reader agentRuntimeSchema) {
+    public static SAAGraphAgent convert(final Reader agentRuntimeSchema) {
 
         return new SAAGraphAgent();
     }

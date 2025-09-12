@@ -23,6 +23,8 @@ import com.alibaba.cloud.ai.agent.runtime.LoaderType;
 import com.alibaba.cloud.ai.agent.runtime.common.model.BaseAgent;
 
 /**
+ * Load Agent Bean by SPI.
+ *
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */

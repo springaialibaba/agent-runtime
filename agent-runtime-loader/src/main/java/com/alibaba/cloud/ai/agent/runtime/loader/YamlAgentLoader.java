@@ -27,8 +27,11 @@ import com.alibaba.cloud.ai.agent.runtime.framework.adapter.SAAGraphAdapter;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Objects;
 
 /**
+ * Load Yaml Configured Agent Runtime Schema.
+ *
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */
@@ -50,7 +53,7 @@ public class YamlAgentLoader extends AbstractAgentRuntimeLoader {
             case SPRING_AI_ALIBABA_GRAPH -> {
 
                 // check SAA graph schemas
-                if (runtimeConfig.getSchema() == null || runtimeConfig.getSchema().isEmpty()) {
+                if (Objects.isNull(runtimeConfig.getSchema()) || runtimeConfig.getSchema().isEmpty()) {
                     throw new AgentRuntimeException("Agent schema is empty");
                 }
 

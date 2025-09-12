@@ -23,7 +23,6 @@ import com.alibaba.cloud.ai.agent.runtime.common.enums.IEnum;
 
 /**
  * Agent configuration loader types.
- *
  * JAVA_FILE:
  * ClassPath:
  * Yaml:

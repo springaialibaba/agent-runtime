@@ -31,9 +31,11 @@ public interface IAgentRuntimeLoader {
 
     BaseAgent load();
 
-    default void stop() {}
+    default void stop() {
+    }
 
-    default void start() {}
+    default void start() {
+    }
 
     default Boolean hotReloading() {
 

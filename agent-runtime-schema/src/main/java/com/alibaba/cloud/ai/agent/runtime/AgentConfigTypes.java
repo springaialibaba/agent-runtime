@@ -22,10 +22,10 @@ package com.alibaba.cloud.ai.agent.runtime;
 import com.alibaba.cloud.ai.agent.runtime.common.enums.IEnum;
 
 /**
+ * Agent Runtime Config Types.
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */
-
 public enum AgentConfigTypes implements IEnum {
 
     YAML("Yaml", "runtime.config.yaml types"),
@@ -54,7 +54,7 @@ public enum AgentConfigTypes implements IEnum {
         return this.desc;
     }
 
-    public static AgentConfigTypes fromExtension(String ext) {
+    public static AgentConfigTypes fromExtension(final String ext) {
 
         for (AgentConfigTypes type : values()) {
             if (type.name.equalsIgnoreCase(ext)) {

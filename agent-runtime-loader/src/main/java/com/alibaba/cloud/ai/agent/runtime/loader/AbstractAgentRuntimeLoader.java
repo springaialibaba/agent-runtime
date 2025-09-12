@@ -33,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract loader for agent runtime schema.
@@ -45,7 +46,7 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
 
     private static AgentRuntimeSchema agentRuntimeSchema;
 
-    public static IAgentRuntimeLoader createLoader(String configPath) {
+    public static IAgentRuntimeLoader createLoader(final String configPath) {
 
         agentRuntimeSchema = loadAgentRuntimeConfig(configPath);
         LoaderType type = agentRuntimeSchema.getTypes();
@@ -68,7 +69,7 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
         }
     }
 
-    private static AgentRuntimeSchema loadAgentRuntimeConfig(String configPath) {
+    private static AgentRuntimeSchema loadAgentRuntimeConfig(final String configPath) {
 
         List<String> supportedFiles = List.of(
                 "runtime.config.json",
@@ -78,7 +79,7 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
         );
 
         String configFilePath = configPath;
-        if (configPath == null || configPath.isEmpty()) {
+        if (Objects.isNull(configPath) || configPath.isEmpty()) {
             configFilePath = findConfigFileInCurrentDirectory(supportedFiles);
         }
 
@@ -86,7 +87,7 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
         return convertor.convert();
     }
 
-    private static String findConfigFileInCurrentDirectory(List<String> supportedFiles) {
+    private static String findConfigFileInCurrentDirectory(final List<String> supportedFiles) {
 
         Path currentDir = Paths.get("").toAbsolutePath();
         List<String> foundConfigs = new ArrayList<>();
@@ -108,9 +109,9 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
         return foundConfigs.get(0);
     }
 
-    private static BaseAgent loadAgentBasedOnType(AgentRuntimeSchema schema) throws FileNotFoundException {
+    private static BaseAgent loadAgentBasedOnType(final AgentRuntimeSchema schema) throws FileNotFoundException {
 
-        if (schema == null) {
+        if (Objects.isNull(schema)) {
             throw new AgentRuntimeException("AgentRuntimeSchema is null");
         }
 

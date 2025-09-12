@@ -22,6 +22,7 @@ package com.alibaba.cloud.ai.agent.runtime.framework.adapter;
 import com.alibaba.cloud.ai.agent.runtime.common.model.BaseAgent;
 
 /**
+ * Convert SAA Graph Agent to BaseAgent to run.
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */

@@ -21,6 +21,8 @@ package com.alibaba.cloud.ai.agent.runtime;
 
 import com.alibaba.cloud.ai.agent.runtime.common.model.BaseAgent;
 import com.alibaba.cloud.ai.agent.runtime.loader.AbstractAgentRuntimeLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test, to be deleted.
@@ -31,13 +33,15 @@ import com.alibaba.cloud.ai.agent.runtime.loader.AbstractAgentRuntimeLoader;
 
 public class Main {
 
-    public static void main(String[] args) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
+    public static void main(final String[] args) {
 
         IAgentRuntimeLoader agentRuntimeLoader = AbstractAgentRuntimeLoader
                 .createLoader("/Users/shown/workspace/java/open_source/agent-runtime/agent-runtime-schema/src/main/resources/runtime.config.json");
         BaseAgent agent = agentRuntimeLoader.load();
 
-        System.out.println(agent);
+        LOGGER.info(agent.toString());
 
     }
 

@@ -22,7 +22,11 @@ package com.alibaba.cloud.ai.agent.runtime.convertor;
 import com.alibaba.cloud.ai.agent.runtime.AgentFramework;
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Agent Runtime Schema Convertor For Properties.
@@ -32,7 +36,7 @@ import java.util.*;
  */
 public final class PropertiesAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeSchemaConvertor {
 
-    public PropertiesAgentRuntimeSchemaConvertor(String resourcePath) {
+    public PropertiesAgentRuntimeSchemaConvertor(final String resourcePath) {
         super(resourcePath);
     }
     
@@ -40,9 +44,9 @@ public final class PropertiesAgentRuntimeSchemaConvertor extends AbstractAgentRu
     public AgentRuntimeSchema doConvert() {
 
         Properties props = new Properties();
-        try  {
+        try {
 
-            props.load(this.fileReader);
+            props.load(this.getFileReader());
             AgentRuntimeSchema.Builder builder = AgentRuntimeSchema.builder();
             builder.name(props.getProperty("name"));
             builder.version(props.getProperty("version"));

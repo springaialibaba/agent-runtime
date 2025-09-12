@@ -57,7 +57,7 @@ public final class AgentRuntimeSchema implements Serializable {
     private AgentFramework framework;
 
     /**
-     * Agent types
+     * Agent types.
      */
     private LoaderType types;
 
@@ -130,15 +130,15 @@ public final class AgentRuntimeSchema implements Serializable {
     @Override
     public String toString() {
 
-        return "AgentRuntimeSchema{" +
-                "name='" + name + '\'' +
-                ", version='" + version + '\'' +
-                ", description='" + description + '\'' +
-                ", framework=" + framework +
-                ", types=" + types +
-                ", schema='" + schema + '\'' +
-                ", envs=" + envs +
-                '}';
+        return "AgentRuntimeSchema{"
+                + "name='" + name + '\''
+                + ", version='" + version + '\''
+                + ", description='" + description + '\''
+                + ", framework=" + framework
+                + ", types=" + types
+                + ", schema='" + schema + '\''
+                + ", envs=" + envs
+                + '}';
     }
 
     public static Builder builder() {

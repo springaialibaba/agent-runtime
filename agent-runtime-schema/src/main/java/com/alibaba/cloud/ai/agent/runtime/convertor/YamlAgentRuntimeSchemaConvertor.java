@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public final class YamlAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeSchemaConvertor {
 
-    public YamlAgentRuntimeSchemaConvertor(String resourcePath) {
+    public YamlAgentRuntimeSchemaConvertor(final String resourcePath) {
         super(resourcePath);
     }
     
@@ -41,7 +41,7 @@ public final class YamlAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeS
 
             Yaml yaml = new Yaml();
 
-            return yaml.loadAs(this.fileReader, AgentRuntimeSchema.class);
+            return yaml.loadAs(this.getFileReader(), AgentRuntimeSchema.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert YAML to AgentRuntimeSchema", e);
         }

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public final class JSONAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeSchemaConvertor {
 
-    public JSONAgentRuntimeSchemaConvertor(String resourcePath) {
+    public JSONAgentRuntimeSchemaConvertor(final String resourcePath) {
         super(resourcePath);
     }
 
@@ -41,7 +41,7 @@ public final class JSONAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeS
 
             ObjectMapper mapper = new ObjectMapper();
 
-            return mapper.readValue(this.fileReader, AgentRuntimeSchema.class);
+            return mapper.readValue(this.getFileReader(), AgentRuntimeSchema.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert JSON to AgentRuntimeSchema", e);
         }
