@@ -28,16 +28,6 @@ build: ## Build the project
 	@$(LOG_TARGET)
 	mvnd -Dmvnd.connectTimeout=30000 -B package --file pom.xml -DskipTests=true
 
-.PHONY: format-fix
-format-fix: ## Format the code
-	@$(LOG_TARGET)
-	mvnd -Dmvnd.connectTimeout=30000 spring-javaformat:apply
-
-.PHONY: format-check
-format-check: ## Format Check the code
-	@$(LOG_TARGET)
-	mvnd -Dmvnd.connectTimeout=30000 spring-javaformat:validate
-
 .PHONY: spotless-apply
 spotless-apply: ## Run spotless and apply changes
 	@$(LOG_TARGET)

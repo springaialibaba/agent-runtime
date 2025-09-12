@@ -30,23 +30,16 @@ env:
 permissions:
   contents: read
 jobs:
-  format:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: ./tools/github-actions/setup-deps
-      - run: make tools
-      - run: make format-check
   check-style:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./tools/github-actions/setup-deps
       - run: make tools
-      - run: make checkstyle-check
+      - run: make precommit
   test:
     runs-on: ubuntu-22.04
-    needs: [format, check-style]
+    needs: [check-style]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./tools/github-actions/setup-deps
@@ -54,7 +47,7 @@ jobs:
       - run: make test
   build:
     runs-on: ubuntu-22.04
-    needs: [format, check-style, test]
+    needs: [check-style, test]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./tools/github-actions/setup-deps
