@@ -49,12 +49,12 @@ sandbox:
   docker-environment:
     PYTHONPATH: "/workspace"
     WORKSPACE_DIR: "/workspace"
-  
+
   # Port range for containers
   port-range:
     - 9000
     - 9999
-  
+
   # Deployment type
   deployment-type: "DOCKER"
 
@@ -92,7 +92,7 @@ spring:
 sandbox:
   bearer-token: "${SANDBOX_SECRET_TOKEN:}"
   auto-cleanup: false
-  
+
 logging:
   level:
     root: WARN
