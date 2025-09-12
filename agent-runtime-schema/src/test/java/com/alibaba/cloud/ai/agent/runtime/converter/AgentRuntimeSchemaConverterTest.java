@@ -38,12 +38,12 @@ class AgentRuntimeSchemaConverterTest {
     }
 
     @Test
-    void testJsonConvertor() {
+    void testJsonConverter() {
 
         String path = getResourcePath("template/runtime.config.json");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
-        AgentRuntimeSchema schema = convertor.convert();
+        IAgentRuntimeSchemaConverter converter = AbstractAgentRuntimeSchemaConverter.createConverter(path);
+        AgentRuntimeSchema schema = converter.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
         Assertions.assertEquals("A demo agent for testing.", schema.getDescription());
@@ -54,12 +54,12 @@ class AgentRuntimeSchemaConverterTest {
     }
 
     @Test
-    void testYamlConvertor() {
+    void testYamlConverter() {
 
         String path = getResourcePath("template/runtime.config.yaml");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
-        AgentRuntimeSchema schema = convertor.convert();
+        IAgentRuntimeSchemaConverter converter = AbstractAgentRuntimeSchemaConverter.createConverter(path);
+        AgentRuntimeSchema schema = converter.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
         Assertions.assertEquals("A demo agent for testing.", schema.getDescription());
@@ -70,12 +70,12 @@ class AgentRuntimeSchemaConverterTest {
     }
 
     @Test
-    void testPropertiesConvertor() {
+    void testPropertiesConverter() {
 
         String path = getResourcePath("template/runtime.config.properties");
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(path);
-        AgentRuntimeSchema schema = convertor.convert();
+        IAgentRuntimeSchemaConverter converter = AbstractAgentRuntimeSchemaConverter.createConverter(path);
+        AgentRuntimeSchema schema = converter.convert();
         Assertions.assertEquals("MyAgent", schema.getName());
         Assertions.assertEquals("1.0.0", schema.getVersion());
         Assertions.assertEquals("A demo agent for testing.", schema.getDescription());

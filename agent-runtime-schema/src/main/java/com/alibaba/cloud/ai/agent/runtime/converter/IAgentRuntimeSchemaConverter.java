@@ -22,7 +22,7 @@ package com.alibaba.cloud.ai.agent.runtime.converter;
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
 
 /**
- * Agent Runtime Schema Convertor.
+ * Agent Runtime Schema Converter.
  *
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>

@@ -28,8 +28,8 @@ import java.io.Reader;
 import java.util.Objects;
 
 /**
- * Abstract base class for Agent Runtime Schema Convertors.
- * Provides common behaviors for all convertors.
+ * Abstract base class for Agent Runtime Schema Converters.
+ * Provides common behaviors for all converters.
  *
  * @author yuluo
  */
@@ -78,8 +78,8 @@ public abstract class AbstractAgentRuntimeSchemaConverter implements IAgentRunti
     @Override
     public AgentRuntimeSchema convert() {
 
-        AbstractAgentRuntimeSchemaConverter convertor = createConverter(resourcePath);
-        return convertor.doConvert();
+        AbstractAgentRuntimeSchemaConverter converter = createConverter(resourcePath);
+        return converter.doConvert();
     }
 
     /**

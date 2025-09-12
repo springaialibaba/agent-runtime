@@ -23,7 +23,7 @@ import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Agent Runtime Schema Convertor for YAML format.
+ * Agent Runtime Schema Converter for YAML format.
  *
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
