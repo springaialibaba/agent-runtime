@@ -19,8 +19,8 @@
 
 package com.alibaba.cloud.ai.agent.runtime;
 
-import com.alibaba.cloud.ai.agent.runtime.convertor.AbstractAgentRuntimeSchemaConvertor;
-import com.alibaba.cloud.ai.agent.runtime.convertor.IAgentRuntimeSchemaConvertor;
+import com.alibaba.cloud.ai.agent.runtime.converter.AbstractAgentRuntimeSchemaConverter;
+import com.alibaba.cloud.ai.agent.runtime.converter.IAgentRuntimeSchemaConvertor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +38,9 @@ public class Main {
 
     public static void main(final String[] args) {
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConvertor.createConvertor(
+        IAgentRuntimeSchemaConvertor converter = AbstractAgentRuntimeSchemaConverter.createConverter(
                 "/Users/shown/workspace/java/open_source/agent-runtime/agent-runtime-schema/src/main/resources/runtime.config.json");
-        AgentRuntimeSchema schema = convertor.convert();
+        AgentRuntimeSchema schema = converter.convert();
 
         LOG.info(String.valueOf(schema));
     }

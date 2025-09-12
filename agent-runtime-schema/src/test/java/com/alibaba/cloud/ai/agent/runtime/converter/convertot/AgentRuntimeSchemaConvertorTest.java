@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package com.alibaba.cloud.ai.agent.runtime.convertor.convertot;
+package com.alibaba.cloud.ai.agent.runtime.converter.convertot;
 
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
-import com.alibaba.cloud.ai.agent.runtime.convertor.AbstractAgentRuntimeSchemaConvertor;
-import com.alibaba.cloud.ai.agent.runtime.convertor.IAgentRuntimeSchemaConvertor;
+import com.alibaba.cloud.ai.agent.runtime.converter.AbstractAgentRuntimeSchemaConvertor;
+import com.alibaba.cloud.ai.agent.runtime.converter.IAgentRuntimeSchemaConvertor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

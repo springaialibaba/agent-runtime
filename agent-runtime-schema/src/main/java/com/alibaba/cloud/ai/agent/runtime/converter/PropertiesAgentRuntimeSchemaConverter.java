@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.alibaba.cloud.ai.agent.runtime.convertor;
+package com.alibaba.cloud.ai.agent.runtime.converter;
 
 import com.alibaba.cloud.ai.agent.runtime.AgentFramework;
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
@@ -34,9 +34,9 @@ import java.util.Properties;
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */
-public final class PropertiesAgentRuntimeSchemaConvertor extends AbstractAgentRuntimeSchemaConvertor {
+public final class PropertiesAgentRuntimeSchemaConverter extends AbstractAgentRuntimeSchemaConverter {
 
-    public PropertiesAgentRuntimeSchemaConvertor(final String resourcePath) {
+    public PropertiesAgentRuntimeSchemaConverter(final String resourcePath) {
         super(resourcePath);
     }
     

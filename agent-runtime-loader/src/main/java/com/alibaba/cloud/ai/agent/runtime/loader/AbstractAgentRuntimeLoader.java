@@ -24,8 +24,8 @@ import com.alibaba.cloud.ai.agent.runtime.IAgentRuntimeLoader;
 import com.alibaba.cloud.ai.agent.runtime.LoaderType;
 import com.alibaba.cloud.ai.agent.runtime.common.AgentRuntimeException;
 import com.alibaba.cloud.ai.agent.runtime.common.model.BaseAgent;
-import com.alibaba.cloud.ai.agent.runtime.convertor.AbstractAgentRuntimeSchemaConvertor;
-import com.alibaba.cloud.ai.agent.runtime.convertor.IAgentRuntimeSchemaConvertor;
+import com.alibaba.cloud.ai.agent.runtime.converter.AbstractAgentRuntimeSchemaConverter;
+import com.alibaba.cloud.ai.agent.runtime.converter.IAgentRuntimeSchemaConvertor;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -83,7 +83,7 @@ public abstract class AbstractAgentRuntimeLoader implements IAgentRuntimeLoader 
             configFilePath = findConfigFileInCurrentDirectory(supportedFiles);
         }
 
-        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConvertor.createConvertor(configFilePath);
+        IAgentRuntimeSchemaConvertor convertor = AbstractAgentRuntimeSchemaConverter.createConverter(configFilePath);
         return convertor.convert();
     }
 

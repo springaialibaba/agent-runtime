@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.alibaba.cloud.ai.agent.runtime.convertor;
+package com.alibaba.cloud.ai.agent.runtime.converter;
 
 import com.alibaba.cloud.ai.agent.runtime.AgentRuntimeSchema;
 import com.alibaba.cloud.ai.agent.runtime.common.AgentRuntimeException;
@@ -33,7 +33,7 @@ import java.util.Objects;
  *
  * @author yuluo
  */
-public abstract class AbstractAgentRuntimeSchemaConvertor implements IAgentRuntimeSchemaConvertor {
+public abstract class AbstractAgentRuntimeSchemaConverter implements IAgentRuntimeSchemaConvertor {
 
     /**
      * Common resource path, can be used by subclasses.
@@ -45,7 +45,7 @@ public abstract class AbstractAgentRuntimeSchemaConvertor implements IAgentRunti
      */
     private final Reader fileReader;
 
-    public AbstractAgentRuntimeSchemaConvertor(final String resourcePath) {
+    public AbstractAgentRuntimeSchemaConverter(final String resourcePath) {
 
         assert Objects.nonNull(resourcePath) && !resourcePath.isEmpty() : "Resource path must not be null or empty";
         this.resourcePath = resourcePath;
@@ -57,7 +57,7 @@ public abstract class AbstractAgentRuntimeSchemaConvertor implements IAgentRunti
         }
     }
 
-    public static AbstractAgentRuntimeSchemaConvertor createConvertor(final String resourcePath) {
+    public static AbstractAgentRuntimeSchemaConverter createConverter(final String resourcePath) {
 
         String ext = null;
         if (resourcePath.lastIndexOf('.') != -1) {
@@ -68,9 +68,9 @@ public abstract class AbstractAgentRuntimeSchemaConvertor implements IAgentRunti
         }
 
         return switch (ext) {
-            case "json" -> new JSONAgentRuntimeSchemaConvertor(resourcePath);
-            case "yaml", "yml" -> new YamlAgentRuntimeSchemaConvertor(resourcePath);
-            case "properties" -> new PropertiesAgentRuntimeSchemaConvertor(resourcePath);
+            case "json" -> new JSONAgentRuntimeSchemaConverter(resourcePath);
+            case "yaml", "yml" -> new YamlAgentRuntimeSchemaConverter(resourcePath);
+            case "properties" -> new PropertiesAgentRuntimeSchemaConverter(resourcePath);
             default -> throw new IllegalArgumentException("Unsupported resource type: " + resourcePath);
         };
     }
