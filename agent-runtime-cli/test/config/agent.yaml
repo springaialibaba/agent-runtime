@@ -1,0 +1,14 @@
+name: example-agent
+version: 1.0.0
+description: Example agent configuration
+
+runtime:
+  framework: SPRING_AI_ALIBABA_GRAPH
+  mode: development
+  
+server:
+  port: 8080
+  
+logging:
+  level: INFO
+  file: logs/agent.log
