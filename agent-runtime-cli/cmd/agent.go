@@ -112,7 +112,7 @@ func runAgentStart(cmd *cobra.Command, args []string) {
 
 func runAgentStop(cmd *cobra.Command, args []string) {
 	fmt.Println("🛑 停止Agent...")
-	
+
 	pidFile := ".agent.pid"
 	if _, err := os.Stat(pidFile); os.IsNotExist(err) {
 		fmt.Println("ℹ️  没有运行中的Agent")
@@ -151,7 +151,7 @@ func runAgentStop(cmd *cobra.Command, args []string) {
 
 func runAgentStatus(cmd *cobra.Command, args []string) {
 	fmt.Println("📊 Agent状态:")
-	
+
 	pidFile := ".agent.pid"
 	if _, err := os.Stat(pidFile); os.IsNotExist(err) {
 		fmt.Println("  状态: 已停止")
@@ -166,7 +166,7 @@ func runAgentStatus(cmd *cobra.Command, args []string) {
 	}
 
 	pid := strings.TrimSpace(string(pidData))
-	
+
 	// 简单检查：如果PID文件存在且日志文件在更新，认为进程运行中
 	logFile := filepath.Join("logs", "agent.log")
 	if stat, err := os.Stat(logFile); err == nil {
@@ -187,7 +187,7 @@ func runAgentStatus(cmd *cobra.Command, args []string) {
 
 func runAgentList(cmd *cobra.Command, args []string) {
 	fmt.Println("📋 Agent列表:")
-	
+
 	// 查找当前目录下的配置文件
 	configs, err := filepath.Glob("runtime.config*.json")
 	if err != nil {
@@ -209,7 +209,7 @@ func runAgentList(cmd *cobra.Command, args []string) {
 		name, _ := config["name"].(string)
 		version, _ := config["version"].(string)
 		framework, _ := config["framework"].(string)
-		
+
 		fmt.Printf("  • %s (v%s) - %s\n", name, version, framework)
 		fmt.Printf("    配置: %s\n", configFile)
 	}
@@ -217,7 +217,7 @@ func runAgentList(cmd *cobra.Command, args []string) {
 
 func runAgentHealth(cmd *cobra.Command, args []string) {
 	fmt.Println("🏥 检查Agent健康状态...")
-	
+
 	// 检查进程状态
 	pidFile := ".agent.pid"
 	if _, err := os.Stat(pidFile); os.IsNotExist(err) {
@@ -240,7 +240,7 @@ func runAgentHealth(cmd *cobra.Command, args []string) {
 	}
 
 	fmt.Println("✅ Agent进程正常")
-	
+
 	// 检查端口连通性
 	checkPort := exec.Command("nc", "-z", "localhost", fmt.Sprintf("%d", port))
 	if err := checkPort.Run(); err != nil {
@@ -278,43 +278,43 @@ func checkJavaEnvironment() error {
 func startAgent(config map[string]interface{}, detach bool) error {
 	framework, _ := config["framework"].(string)
 	fmt.Printf("🔧 使用框架: %s\n", framework)
-	
+
 	// 查找JAR文件
 	jarFile, err := findJarFile()
 	if err != nil {
 		return fmt.Errorf("未找到JAR文件: %v", err)
 	}
-	
+
 	fmt.Printf("📦 JAR文件: %s\n", jarFile)
-	
+
 	// 构建Java命令
 	args := []string{"-jar", jarFile}
 	if port != 8080 {
 		args = append(args, fmt.Sprintf("--server.port=%d", port))
 	}
-	
+
 	fmt.Printf("🔧 执行命令: java %s\n", strings.Join(args, " "))
-	
+
 	cmd := exec.Command("java", args...)
-	
+
 	if detach {
 		// 后台运行 - 重定向输出到日志文件
 		logDir := "logs"
 		os.MkdirAll(logDir, 0755)
-		
+
 		logFile, err := os.Create(filepath.Join(logDir, "agent.log"))
 		if err != nil {
 			return fmt.Errorf("创建日志文件失败: %v", err)
 		}
-		
+
 		cmd.Stdout = logFile
 		cmd.Stderr = logFile
-		
+
 		if err := cmd.Start(); err != nil {
 			logFile.Close()
 			return fmt.Errorf("启动进程失败: %v", err)
 		}
-		
+
 		// 保存PID - 确保文件被创建
 		pidFile := ".agent.pid"
 		if err := os.WriteFile(pidFile, []byte(fmt.Sprintf("%d", cmd.Process.Pid)), 0644); err != nil {
@@ -322,12 +322,12 @@ func startAgent(config map[string]interface{}, detach bool) error {
 			logFile.Close()
 			return fmt.Errorf("保存PID文件失败: %v", err)
 		}
-		
+
 		fmt.Println("🔄 Agent在后台运行")
 		fmt.Printf("📝 日志文件: %s\n", filepath.Join(logDir, "agent.log"))
 		fmt.Printf("🆔 进程ID: %d\n", cmd.Process.Pid)
 		fmt.Printf("📄 PID文件: %s\n", pidFile)
-		
+
 		// 监控进程状态 - 不要立即删除PID文件
 		go func() {
 			defer logFile.Close()
@@ -336,7 +336,7 @@ func startAgent(config map[string]interface{}, detach bool) error {
 			fmt.Printf("进程 %d 已结束\n", cmd.Process.Pid)
 			os.Remove(pidFile)
 		}()
-		
+
 	} else {
 		// 前台运行
 		cmd.Stdout = os.Stdout
@@ -344,7 +344,7 @@ func startAgent(config map[string]interface{}, detach bool) error {
 		fmt.Println("🔄 Agent在前台运行 (Ctrl+C 停止)")
 		return cmd.Run()
 	}
-	
+
 	return nil
 }
 
@@ -354,17 +354,17 @@ func findJarFile() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	if len(jarFiles) == 0 {
 		return "", fmt.Errorf("target目录下没有JAR文件，请先运行 'agent-runtime build'")
 	}
-	
+
 	// 优先选择非test的JAR文件
 	for _, jar := range jarFiles {
 		if !strings.Contains(jar, "test") {
 			return jar, nil
 		}
 	}
-	
+
 	return jarFiles[0], nil
 }

@@ -94,7 +94,7 @@ func loadConfig(filename string) (map[string]interface{}, error) {
 
 func validateConfig(config map[string]interface{}) error {
 	required := []string{"name", "version", "framework", "types"}
-	
+
 	for _, field := range required {
 		if _, exists := config[field]; !exists {
 			return fmt.Errorf("缺少必需字段: %s", field)

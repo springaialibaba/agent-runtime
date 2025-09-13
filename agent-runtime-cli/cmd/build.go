@@ -91,7 +91,7 @@ func showBuildResults() {
 		if err != nil {
 			continue
 		}
-		
+
 		size := info.Size()
 		sizeStr := formatFileSize(size)
 		fmt.Printf("  • %s (%s)\n", jar, sizeStr)

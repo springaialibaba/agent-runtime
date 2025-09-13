@@ -23,9 +23,9 @@ var (
 )
 
 func init() {
-	initCmd.Flags().StringVarP(&framework, "framework", "f", "SPRING_AI_ALIBABA_GRAPH", 
+	initCmd.Flags().StringVarP(&framework, "framework", "f", "SPRING_AI_ALIBABA_GRAPH",
 		"AI框架类型 (SPRING_AI_ALIBABA_GRAPH|LANGGRAPH4J|ADK_JAVA)")
-	initCmd.Flags().StringVarP(&template, "template", "t", "basic", 
+	initCmd.Flags().StringVarP(&template, "template", "t", "basic",
 		"项目模板 (basic|web|batch)")
 }
 
