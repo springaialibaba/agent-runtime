@@ -23,16 +23,44 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
+const Version = "1.0.0-DEV"
 
-	Use:   "cliapp",
-	Short: "A simple CLI application",
+var rootCmd = &cobra.Command{
+	Use:   "agent-runtime",
+	Short: "Agent Runtime CLI - 智能体运行时管理工具",
+	Long: `Agent Runtime CLI 是一个用于管理AI智能体运行时的命令行工具。
+
+支持多种AI框架：
+  • Spring AI Alibaba Graph
+  • LangGraph4J  
+  • ADK-Java
+
+主要功能：
+  • 项目初始化和配置管理
+  • Agent生命周期管理
+  • 多种部署方式支持`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hello from CLI!")
+		cmd.Help()
 	},
 }
 
 func Execute() error {
-
 	return rootCmd.Execute()
+}
+
+func init() {
+	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(initCmd)
+	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(agentCmd)
+	rootCmd.AddCommand(buildCmd)
+}
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "显示版本信息",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("Agent Runtime CLI v%s\n", Version)
+		fmt.Println("Build with ❤️  by Alibaba Cloud AI")
+	},
 }

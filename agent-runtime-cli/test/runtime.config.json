@@ -1,0 +1,16 @@
+{
+  "description": "Agent project: test",
+  "envs": [
+    {
+      "JAVA_HOME": "/usr/lib/jvm/java-17"
+    },
+    {
+      "AGENT_MODE": "development"
+    }
+  ],
+  "framework": "SPRING_AI_ALIBABA_GRAPH",
+  "name": "test",
+  "schema": "./config/agent.yaml",
+  "types": "YAML",
+  "version": "1.0.0"
+}
