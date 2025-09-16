@@ -21,15 +21,15 @@ server:
     context-path: /
 
 spring:
+  application:
+    name: sandbox-manager
+  profiles:
+    active: dev
   ai:
     mcp:
       client:
         stdio:
           servers-configuration: classpath:mcp-servers.json
-  application:
-    name: sandbox-manager
-  profiles:
-    active: dev
 
 
 # Sandbox configuration

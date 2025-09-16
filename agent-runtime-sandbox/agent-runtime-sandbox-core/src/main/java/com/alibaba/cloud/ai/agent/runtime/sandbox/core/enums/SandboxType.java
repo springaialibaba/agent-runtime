@@ -19,21 +19,40 @@
 
 package com.alibaba.cloud.ai.agent.runtime.sandbox.core.enums;
 
+import java.util.List;
+
 /**
  * Sandbox type enumeration
  */
 public enum SandboxType {
 
-	BASE("base"), FILESYSTEM("filesystem"), BROWSER("browser"), CUSTOM("custom");
+	BASE("base", "agentruntime/sandbox:base", List.of(8000)),
+	FILESYSTEM("filesystem", "agentruntime/sandbox:filesystem", List.of(8000)),
+	BROWSER("browser", "agentruntime/sandbox:browser", List.of(8000, 80, 3000, 9223)),
+	CUSTOM("custom", "agentruntime/sandbox:custom", List.of(8000));
 
 	private final String value;
 
-	SandboxType(String value) {
+	private final List<Integer> ports;
+
+	private final String imageName;
+
+	SandboxType(String value, String imageName, List<Integer> ports) {
 		this.value = value;
+		this.imageName = imageName;
+		this.ports = ports;
 	}
 
 	public String getValue() {
 		return value;
+	}
+
+	public List<Integer> getPorts() {
+		return ports;
+	}
+
+	public String getImageName() {
+		return imageName;
 	}
 
 	public static SandboxType fromValue(String value) {
@@ -49,5 +68,6 @@ public enum SandboxType {
 	public String toString() {
 		return value;
 	}
+
 
 }

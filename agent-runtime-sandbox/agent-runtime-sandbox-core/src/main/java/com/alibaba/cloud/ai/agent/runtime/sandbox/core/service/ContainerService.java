@@ -113,19 +113,25 @@ public class ContainerService {
 	 */
 	public ContainerModel createContainer(String sessionId, SandboxType sandboxType) {
 		try {
-			String imageName = getImageName(sandboxType);
+			String imageName = sandboxType.getImageName();
 			String containerName = generateContainerName(sessionId);
 
 			// Allocate ports
-			List<Integer> ports = allocatePorts(2); // Main port and browser port
+			List<Integer> ports = allocatePorts(sandboxType.getPorts().size()); // Main port and browser port
+
+			// Build port bindings and environment variables and mounts
+			PortBinding[] portBindings = buildPortBindings(ports, sandboxType.getPorts());
+			List<String> environmentVariables = buildEnvironmentVariables(sessionId);
+			this.processSandboxSpecEnv(environmentVariables, portBindings, sandboxType);
+			List<Mount> mounts = buildMounts();
 
 			// Create container
 			CreateContainerResponse container = dockerClient.createContainerCmd(imageName)
 				.withName(containerName)
-				.withEnv(buildEnvironmentVariables(sessionId))
+				.withEnv(environmentVariables)
 				.withHostConfig(HostConfig.newHostConfig()
-				.withMounts(buildMounts())
-				.withPortBindings(buildPortBindings(ports))
+				.withMounts(mounts)
+				.withPortBindings(portBindings)
 				// .withAutoRemove(config.isAutoCleanup())
 				.withNetworkMode("bridge"))
 				.exec();
@@ -139,15 +145,9 @@ public class ContainerService {
 			waitForContainerReady(containerId, ports.get(0));
 
 			// Create container model
-			ContainerModel model = new ContainerModel(sessionId, containerId, "http://localhost:" + ports.get(0), ports,
-					sandboxType.getValue());
-
-			if (ports.size() > 1) {
-				model.setBrowserUrl("http://localhost:" + ports.get(1));
-			}
+			ContainerModel model = new ContainerModel(sessionId, containerId, "http://localhost:" + ports.get(0), ports, sandboxType.getValue());
 
 			model.setBearerToken(config.getBearerToken());
-
 			activeContainers.put(sessionId, model);
 
 			logger.info("Container created successfully: {} for session: {}", containerId, sessionId);
@@ -158,6 +158,22 @@ public class ContainerService {
 			logger.error("Failed to create container for session: {}", sessionId, e);
 			throw new RuntimeException("Container creation failed", e);
 		}
+	}
+
+	/**
+	 * Process sandbox specific environment variables
+	 * @param environmentVariables environmentVariables
+	 * @param portBindings portBindings
+	 * @param sandboxType sandboxType
+	 */
+	private void processSandboxSpecEnv(List<String> environmentVariables, PortBinding[] portBindings, SandboxType sandboxType){
+		if (sandboxType == SandboxType.BROWSER) {
+			if (portBindings.length >= 3) {
+				String portSpec = portBindings[2].getBinding().getHostPortSpec();
+				environmentVariables.add("DOMAIN=localhost:" + portSpec);
+			}
+		}
+
 	}
 
 	/**
@@ -201,17 +217,6 @@ public class ContainerService {
 		return new HashMap<>(activeContainers);
 	}
 
-	/**
-	 * Get Docker image name for sandbox type
-	 */
-	private String getImageName(SandboxType sandboxType) {
-		return switch (sandboxType) {
-			case BASE -> "agentruntime/sandbox:base";
-			case FILESYSTEM -> "agentruntime/sandbox:filesystem";
-			case BROWSER -> "agentruntime/sandbox:browser";
-			default -> "agentruntime/sandbox:base";
-		};
-	}
 
 	/**
 	 * Generate container name
@@ -254,20 +259,11 @@ public class ContainerService {
 	/**
 	 * Build port bindings
 	 */
-	private PortBinding[] buildPortBindings(List<Integer> ports) {
+	private PortBinding[] buildPortBindings(List<Integer> ports, List<Integer> occupiedPorts) {
 		List<PortBinding> bindings = new ArrayList<>();
-		//  主端口
-		if (!ports.isEmpty()) {
-			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(0)), ExposedPort.tcp(8000)));
+		for(int i = 0 ; i < ports.size() ; i++) {
+			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(i)), ExposedPort.tcp(occupiedPorts.get(i))));
 		}
-
-		// Nginx 端口
-		if (ports.size() > 1) {
-			bindings.add(new PortBinding(Ports.Binding.bindPort(ports.get(1)), ExposedPort.tcp(80)));
-		}
-
-		// TODO 如果有更多端口需求怎么处理
-
 		return bindings.toArray(new PortBinding[0]);
 	}
 
@@ -293,11 +289,10 @@ public class ContainerService {
 		env.add("SESSION_ID=" + sessionId);
 		env.add("SECRET_TOKEN=" + config.getBearerToken());
 		env.add("WORKSPACE_DIR=/workspace");
-
+		// Add sandbox type specific envs
 		if (config.getDockerEnvironment() != null) {
 			config.getDockerEnvironment().forEach((key, value) -> env.add(key + "=" + value));
 		}
-
 		return env;
 	}
 
