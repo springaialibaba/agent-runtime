@@ -56,7 +56,7 @@ public class ToolsController {
 	}
 
 	private String completeName(String name) {
-		return "spring_ai_mcp_client_playwright_" + name;
+		return "spring_ai_mcp_client_" + name;
 	}
 
 	@PostMapping("/list")

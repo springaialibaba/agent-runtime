@@ -119,70 +119,12 @@ public class SandboxHttpClient implements AutoCloseable {
 		return executeRequest("/tools/run_shell_command", payload, new TypeReference<>() {});
 	}
 
-	// ==================== FileSystem MCP Methods ====================
 	/**
-	 * Read file content
+	 * MCP
+	 * @param name tool name
+	 * @param args arguments
+	 * @return result
 	 */
-	public Map<String, Object> readFile(String path) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("path", path);
-
-		return executeRequest("/tools/read_file", payload, new TypeReference<>() {});
-	}
-
-	/**
-	 * Write file content
-	 */
-	public Map<String, Object> writeFile(String path, String content) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("path", path);
-		payload.put("content", content);
-
-		return executeRequest("/tools/write_file", payload, new TypeReference<>() {});
-	}
-
-	/**
-	 * Create directory
-	 */
-	public Map<String, Object> createDirectory(String path) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("path", path);
-
-		return executeRequest("/tools/create_directory", payload, new TypeReference<>() {});
-	}
-
-	/**
-	 * List directory contents
-	 */
-	public Map<String, Object> listDirectory(String path) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("path", path);
-
-		return executeRequest("/tools/list_directory", payload, new TypeReference<>() {});
-	}
-
-	/**
-	 * Move file
-	 */
-	public Map<String, Object> moveFile(String source, String destination) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("source_path", source);
-		payload.put("destination_path", destination);
-
-		return executeRequest("/tools/move_file", payload, new TypeReference<>() {});
-	}
-
-	/**
-	 * Get file info
-	 */
-	public Map<String, Object> getFileInfo(String path) {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("path", path);
-
-		return executeRequest("/tools/get_file_info", payload, new TypeReference<>() {});
-	}
-
-
 	public Object call(String name, Map<String, Object> args) {
 		try {
 			Map<String, Object> payload = new HashMap<>();

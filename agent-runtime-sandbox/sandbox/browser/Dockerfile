@@ -36,7 +36,7 @@ COPY mcp-servers.json mcp-servers.json
 FROM jar-stage AS final-stage
 
 # 暴露端口
-EXPOSE 3000 8080 80 9223
+EXPOSE 3000 8000 80 9223
 
 # 创建启动脚本
 WORKDIR /app
@@ -44,6 +44,5 @@ COPY start.sh .
 
 # 给启动脚本执行权限
 RUN chmod +x /app/start.sh
-ENV DOMAIN=localhost:3000
 # 启动命令
 ENTRYPOINT ["/app/start.sh"]

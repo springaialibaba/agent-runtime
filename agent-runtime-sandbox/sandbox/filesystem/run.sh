@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,31 +16,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM node:22-slim
-ENV NODE_ENV=production
-ENV WORKSPACE_DIR=/workspace
 
-# 安装 JDK17
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk
-
-# 设置 JAVA_HOME
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# 创建应用目录
-WORKDIR /app/java
-
-# 拷贝 agent-runtime-sandbox-mcp 模块的 jar 包
-COPY agent-runtime-sandbox-mcp-1.0.0-DEV.jar app.jar
-COPY mcp-servers.json mcp-servers.json
-
-EXPOSE 8000
-
-# 创建启动脚本
-WORKDIR /app
-COPY start.sh .
-
-# 给启动脚本执行权限
-RUN chmod +x /app/start.sh
-# 启动命令
-ENTRYPOINT ["/app/start.sh"]
+cp ../../agent-runtime-sandbox-mcp/target/agent-runtime-sandbox-mcp-1.0.0-DEV.jar .
+docker build -t agentruntime/sandbox:filesystem .

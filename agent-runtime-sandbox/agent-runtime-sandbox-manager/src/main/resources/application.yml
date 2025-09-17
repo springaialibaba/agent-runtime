@@ -25,11 +25,6 @@ spring:
     name: sandbox-manager
   profiles:
     active: dev
-  ai:
-    mcp:
-      client:
-        stdio:
-          servers-configuration: classpath:mcp-servers.json
 
 
 # Sandbox configuration
@@ -66,34 +61,3 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
----
-# Development profile
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-sandbox:
-  bearer-token: "dev-token-123"
-  auto-cleanup: true
-
-logging:
-  level:
-    root: INFO
-    com.agentscope.sandbox: DEBUG
-
----
-# Production profile
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-sandbox:
-  bearer-token: "${SANDBOX_SECRET_TOKEN:}"
-  auto-cleanup: false
-
-logging:
-  level:
-    root: WARN
-    com.agentscope.sandbox: INFO

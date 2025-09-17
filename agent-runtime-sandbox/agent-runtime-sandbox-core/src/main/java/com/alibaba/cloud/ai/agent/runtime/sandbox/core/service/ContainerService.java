@@ -271,7 +271,7 @@ public class ContainerService {
 		List<Mount> mounts = new ArrayList<>();
 		if (config.getDefaultMountDir() != null && !config.getDefaultMountDir().isEmpty()) {
 			String hostDir = config.getDefaultMountDir();
-			String containerDir = "/workspace/data";
+			String containerDir = "/workspace";
 			Mount mount = new Mount().withType(MountType.BIND)
 				.withSource(hostDir)
 				.withTarget(containerDir)

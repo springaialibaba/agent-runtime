@@ -96,61 +96,6 @@ public class SandboxSession implements AutoCloseable {
 		return httpClient.runShellCommand(command, splitOutput);
 	}
 
-	/**
-	 * Read file content
-	 */
-	public Map<String, Object> readFile(String path) {
-		checkClosed();
-		logger.debug("Reading file in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.readFile(path);
-	}
-
-	/**
-	 * Write file content
-	 */
-	public Map<String, Object> writeFile(String path, String content) {
-		checkClosed();
-		logger.debug("Writing file in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.writeFile(path, content);
-	}
-
-	/**
-	 * Create directory
-	 */
-	public Map<String, Object> createDirectory(String path) {
-		checkClosed();
-		logger.debug("Creating directory in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.createDirectory(path);
-	}
-
-	/**
-	 * List directory contents
-	 */
-	public Map<String, Object> listDirectory(String path) {
-		checkClosed();
-		logger.debug("Listing directory in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.listDirectory(path);
-	}
-
-	/**
-	 * Move file
-	 */
-	public Map<String, Object> moveFile(String source, String destination) {
-		checkClosed();
-		logger.debug("Moving file in session: {}, source: {}, destination: {}", container.getSessionId(), source,
-				destination);
-		return httpClient.moveFile(source, destination);
-	}
-
-	/**
-	 * Get file info
-	 */
-	public Map<String, Object> getFileInfo(String path) {
-		checkClosed();
-		logger.debug("Getting file info in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.getFileInfo(path);
-	}
-
 	public Object call(String name, Map<String, Object> args){
 		checkClosed();
 		logger.debug("Calling tools in session: {}", container.getSessionId());
