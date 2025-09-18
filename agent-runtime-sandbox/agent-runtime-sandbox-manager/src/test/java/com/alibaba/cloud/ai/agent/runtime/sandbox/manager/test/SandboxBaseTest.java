@@ -31,86 +31,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Map;
-
 /**
  * Example demonstrating how to use the Java Sandbox Client
  */
 @SpringBootTest
 @DisplayName("Java Sandbox Client Example")
-public class SandboxTest {
+public class SandboxBaseTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(SandboxTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(SandboxBaseTest.class);
 
 	@Resource
 	private SandboxClientFactory factory;
 
-	@Test
-	@DisplayName("Sandbox Client File System Test")
-	public void testFileSystem() {
-		// Create a filesystem sandbox session
-		logger.info("Creating filesystem sandbox session...");
-		try (SandboxSession session = factory.createSession(SandboxType.FILESYSTEM)) {
-			logger.info("Filesystem sandbox session created: {}", session.getSessionId());
-			// Demonstrate filesystem operations
-			demonstrateFilesystemOperations(session);
-		}
-		catch (SandboxClientException e) {
-			logger.error("Error during filesystem sandbox demo", e);
-		}
-	}
-
-	private static void demonstrateFilesystemOperations(SandboxSession session) throws SandboxClientException {
-		logger.info("=== Filesystem Operations Demo ===");
-
-		// 2. Create a directory
-		logger.info("\n2. Creating directory '/data/demo':");
-		Map<String, Object> createDirResult = session.createDirectory("/data/demo");
-		logger.info("Create directory result: {}", createDirResult);
-
-		// 3. Write a file
-		logger.info("\n3. Writing file '/data/demo/hello.txt':");
-		String content = "Hello, Filesystem Sandbox!\nThis is a demo file.\nCreated by Java client.";
-		Map<String, Object> writeResult = session.writeFile("/data/demo/hello.txt", content);
-		logger.info("Write file result: {}", writeResult);
-
-		// 4. Read the file
-		logger.info("\n4. Reading file '/data/demo/hello.txt':");
-		Map<String, Object> readResult = session.readFile("/data/demo/hello.txt");
-		logger.info("Read file result: {}", readResult);
-
-		// 5. Get file info
-		logger.info("\n5. Getting file info for '/data/demo/hello.txt':");
-		Map<String, Object> fileInfo = session.getFileInfo("/data/demo/hello.txt");
-		logger.info("File info: {}", fileInfo);
-
-		// 6. List directory contents
-		logger.info("\n6. Listing directory '/data/demo':");
-		Map<String, Object> listResult = session.listDirectory("/data/demo");
-		logger.info("Directory listing: {}", listResult);
-
-		// 7. Create another file for demonstration
-		logger.info("\n7. Creating another file '/data/demo/config.json':");
-		String jsonContent = "{\n  \"name\": \"demo\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Filesystem sandbox demo\"\n}";
-		session.writeFile("/data/demo/config.json", jsonContent);
-
-		// 12. Read the edited file
-		logger.info("\n12. Reading edited file '/data/demo/hello.txt':");
-		Map<String, Object> editedReadResult = session.readFile("/data/demo/hello.txt");
-		logger.info("Edited file content: {}", editedReadResult);
-
-		// 13. Move file
-		logger.info("\n13. Moving file '/data/demo/config.json' to '/data/demo/settings.json':");
-		Map<String, Object> moveResult = session.moveFile("/data/demo/config.json", "/data/demo/settings.json");
-		logger.info("Move file result: {}", moveResult);
-
-		// 14. Final directory listing
-		logger.info("\n14. Final directory listing '/data/demo':");
-		Map<String, Object> finalListResult = session.listDirectory("/data/demo");
-		logger.info("Final directory listing: {}", finalListResult);
-
-		logger.info("\n=== Filesystem Operations Demo Completed ===");
-	}
 
 	@Test
 	@DisplayName("Sandbox Client Base Test")

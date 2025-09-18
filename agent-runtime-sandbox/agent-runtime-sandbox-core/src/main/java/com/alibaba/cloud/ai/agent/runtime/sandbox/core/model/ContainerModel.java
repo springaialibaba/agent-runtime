@@ -43,9 +43,6 @@ public class ContainerModel {
 	@JsonProperty("base_url")
 	private String baseUrl;
 
-	@JsonProperty("browser_url")
-	private String browserUrl;
-
 	@JsonProperty("client_browser_ws")
 	private String clientBrowserWs;
 
@@ -101,13 +98,6 @@ public class ContainerModel {
 		this.baseUrl = baseUrl;
 	}
 
-	public String getBrowserUrl() {
-		return browserUrl;
-	}
-
-	public void setBrowserUrl(String browserUrl) {
-		this.browserUrl = browserUrl;
-	}
 
 	public String getClientBrowserWs() {
 		return clientBrowserWs;

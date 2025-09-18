@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,6 +52,10 @@ public class SandboxSession implements AutoCloseable {
 		this.container = container;
 		this.httpClient = httpClient;
 		this.managerClient = managerClient;
+	}
+
+	public List toolsList(){
+		return httpClient.toolsList();
 	}
 
 	/**
@@ -91,294 +96,12 @@ public class SandboxSession implements AutoCloseable {
 		return httpClient.runShellCommand(command, splitOutput);
 	}
 
-	/**
-	 * Read file content
-	 */
-	public Map<String, Object> readFile(String path) {
+	public Object call(String name, Map<String, Object> args){
 		checkClosed();
-		logger.debug("Reading file in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.readFile(path);
+		logger.debug("Calling tools in session: {}", container.getSessionId());
+		return httpClient.call(name, args);
 	}
 
-	/**
-	 * Write file content
-	 */
-	public Map<String, Object> writeFile(String path, String content) {
-		checkClosed();
-		logger.debug("Writing file in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.writeFile(path, content);
-	}
-
-	/**
-	 * Create directory
-	 */
-	public Map<String, Object> createDirectory(String path) {
-		checkClosed();
-		logger.debug("Creating directory in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.createDirectory(path);
-	}
-
-	/**
-	 * List directory contents
-	 */
-	public Map<String, Object> listDirectory(String path) {
-		checkClosed();
-		logger.debug("Listing directory in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.listDirectory(path);
-	}
-
-	/**
-	 * Move file
-	 */
-	public Map<String, Object> moveFile(String source, String destination) {
-		checkClosed();
-		logger.debug("Moving file in session: {}, source: {}, destination: {}", container.getSessionId(), source,
-				destination);
-		return httpClient.moveFile(source, destination);
-	}
-
-	/**
-	 * Get file info
-	 */
-	public Map<String, Object> getFileInfo(String path) {
-		checkClosed();
-		logger.debug("Getting file info in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.getFileInfo(path);
-	}
-
-	// ==================== Playwright MCP Methods ====================
-
-	/**
-	 * Navigate browser to URL
-	 */
-	public Map<String, Object> browserNavigate(String url) {
-		checkClosed();
-		logger.debug("Navigating browser in session: {}, url: {}", container.getSessionId(), url);
-		return httpClient.browserNavigate(url);
-	}
-
-	/**
-	 * Click element by selector
-	 */
-	public Map<String, Object> browserClick(String selector) {
-		checkClosed();
-		logger.debug("Clicking element in session: {}, selector: {}", container.getSessionId(), selector);
-		return httpClient.browserClick(selector);
-	}
-
-	/**
-	 * Type text into element
-	 */
-	public Map<String, Object> browserType(String selector, String text) {
-		checkClosed();
-		logger.debug("Typing text in session: {}, selector: {}, text: {}", container.getSessionId(), selector, text);
-		return httpClient.browserType(selector, text);
-	}
-
-	/**
-	 * Take screenshot
-	 */
-	public Map<String, Object> browserTakeScreenshot() {
-		checkClosed();
-		logger.debug("Taking screenshot in session: {}", container.getSessionId());
-		return httpClient.browserTakeScreenshot();
-	}
-
-	/**
-	 * Take screenshot with options
-	 */
-	public Map<String, Object> browserTakeScreenshot(String selector, boolean fullPage) {
-		checkClosed();
-		logger.debug("Taking screenshot in session: {}, selector: {}, fullPage: {}", container.getSessionId(), selector, fullPage);
-		return httpClient.browserTakeScreenshot(selector, fullPage);
-	}
-
-	/**
-	 * Get page snapshot (accessibility tree)
-	 */
-	public Map<String, Object> browserSnapshot() {
-		checkClosed();
-		logger.debug("Getting page snapshot in session: {}", container.getSessionId());
-		return httpClient.browserSnapshot();
-	}
-
-	/**
-	 * Press key
-	 */
-	public Map<String, Object> browserPressKey(String key) {
-		checkClosed();
-		logger.debug("Pressing key in session: {}, key: {}", container.getSessionId(), key);
-		return httpClient.browserPressKey(key);
-	}
-
-	/**
-	 * Hover over element
-	 */
-	public Map<String, Object> browserHover(String selector) {
-		checkClosed();
-		logger.debug("Hovering over element in session: {}, selector: {}", container.getSessionId(), selector);
-		return httpClient.browserHover(selector);
-	}
-
-	/**
-	 * Select option from dropdown
-	 */
-	public Map<String, Object> browserSelectOption(String selector, String value) {
-		checkClosed();
-		logger.debug("Selecting option in session: {}, selector: {}, value: {}", container.getSessionId(), selector, value);
-		return httpClient.browserSelectOption(selector, value);
-	}
-
-	/**
-	 * Wait for element or condition
-	 */
-	public Map<String, Object> browserWaitFor(String selector, int timeout) {
-		checkClosed();
-		logger.debug("Waiting for element in session: {}, selector: {}, timeout: {}", container.getSessionId(), selector, timeout);
-		return httpClient.browserWaitFor(selector, timeout);
-	}
-
-	/**
-	 * Navigate back
-	 */
-	public Map<String, Object> browserNavigateBack() {
-		checkClosed();
-		logger.debug("Navigating back in session: {}", container.getSessionId());
-		return httpClient.browserNavigateBack();
-	}
-
-	/**
-	 * Navigate forward
-	 */
-	public Map<String, Object> browserNavigateForward() {
-		checkClosed();
-		logger.debug("Navigating forward in session: {}", container.getSessionId());
-		return httpClient.browserNavigateForward();
-	}
-
-	/**
-	 * Resize browser window
-	 */
-	public Map<String, Object> browserResize(int width, int height) {
-		checkClosed();
-		logger.debug("Resizing browser in session: {}, width: {}, height: {}", container.getSessionId(), width, height);
-		return httpClient.browserResize(width, height);
-	}
-
-	/**
-	 * Close browser
-	 */
-	public Map<String, Object> browserClose() {
-		checkClosed();
-		logger.debug("Closing browser in session: {}", container.getSessionId());
-		return httpClient.browserClose();
-	}
-
-	/**
-	 * Create new tab
-	 */
-	public Map<String, Object> browserTabNew() {
-		checkClosed();
-		logger.debug("Creating new tab in session: {}", container.getSessionId());
-		return httpClient.browserTabNew();
-	}
-
-	/**
-	 * List all tabs
-	 */
-	public Map<String, Object> browserTabList() {
-		checkClosed();
-		logger.debug("Listing tabs in session: {}", container.getSessionId());
-		return httpClient.browserTabList();
-	}
-
-	/**
-	 * Select tab by index
-	 */
-	public Map<String, Object> browserTabSelect(int index) {
-		checkClosed();
-		logger.debug("Selecting tab in session: {}, index: {}", container.getSessionId(), index);
-		return httpClient.browserTabSelect(index);
-	}
-
-	/**
-	 * Close tab by index
-	 */
-	public Map<String, Object> browserTabClose(int index) {
-		checkClosed();
-		logger.debug("Closing tab in session: {}, index: {}", container.getSessionId(), index);
-		return httpClient.browserTabClose(index);
-	}
-
-	/**
-	 * Save page as PDF
-	 */
-	public Map<String, Object> browserPdfSave(String path) {
-		checkClosed();
-		logger.debug("Saving PDF in session: {}, path: {}", container.getSessionId(), path);
-		return httpClient.browserPdfSave(path);
-	}
-
-	/**
-	 * Handle dialog (alert, confirm, prompt)
-	 */
-	public Map<String, Object> browserHandleDialog(boolean accept) {
-		return browserHandleDialog(accept, null);
-	}
-
-	/**
-	 * Handle dialog (alert, confirm, prompt) with text
-	 */
-	public Map<String, Object> browserHandleDialog(boolean accept, String text) {
-		checkClosed();
-		logger.debug("Handling dialog in session: {}, accept: {}, text: {}", container.getSessionId(), accept, text);
-		return httpClient.browserHandleDialog(accept, text);
-	}
-
-	/**
-	 * Upload file
-	 */
-	public Map<String, Object> browserFileUpload(String selector, String filePath) {
-		checkClosed();
-		logger.debug("Uploading file in session: {}, selector: {}, filePath: {}", container.getSessionId(), selector, filePath);
-		return httpClient.browserFileUpload(selector, filePath);
-	}
-
-	/**
-	 * Get console messages
-	 */
-	public Map<String, Object> browserConsoleMessages() {
-		checkClosed();
-		logger.debug("Getting console messages in session: {}", container.getSessionId());
-		return httpClient.browserConsoleMessages();
-	}
-
-	/**
-	 * Get network requests
-	 */
-	public Map<String, Object> browserNetworkRequests() {
-		checkClosed();
-		logger.debug("Getting network requests in session: {}", container.getSessionId());
-		return httpClient.browserNetworkRequests();
-	}
-
-	/**
-	 * Drag element from source to target
-	 */
-	public Map<String, Object> browserDrag(String sourceSelector, String targetSelector) {
-		checkClosed();
-		logger.debug("Dragging element in session: {}, from: {} to: {}", container.getSessionId(), sourceSelector, targetSelector);
-		return httpClient.browserDrag(sourceSelector, targetSelector);
-	}
-
-	/**
-	 * Generate Playwright test code
-	 */
-	public Map<String, Object> browserGeneratePlaywrightTest() {
-		checkClosed();
-		logger.debug("Generating Playwright test in session: {}", container.getSessionId());
-		return httpClient.browserGeneratePlaywrightTest();
-	}
 
 	/**
 	 * Check if container is healthy
@@ -418,12 +141,6 @@ public class SandboxSession implements AutoCloseable {
 		return container.getBaseUrl();
 	}
 
-	/**
-	 * Get browser URL (if available)
-	 */
-	public String getBrowserUrl() {
-		return container.getBrowserUrl();
-	}
 
 	/**
 	 * Get sandbox type

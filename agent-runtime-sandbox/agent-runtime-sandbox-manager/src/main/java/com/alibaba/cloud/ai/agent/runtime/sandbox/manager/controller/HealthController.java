@@ -32,14 +32,6 @@ import java.util.Map;
 public class HealthController {
 
 	/**
-	 * Health check endpoint
-	 */
-	@GetMapping("/healthz")
-	public ResponseEntity<String> healthCheck() {
-		return ResponseEntity.ok("OK");
-	}
-
-	/**
 	 * Detailed health status
 	 */
 	@GetMapping("/health")
